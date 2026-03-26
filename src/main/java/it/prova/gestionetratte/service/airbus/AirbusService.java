@@ -9,4 +9,8 @@ public interface AirbusService {
     List<Airbus> listAllElements(boolean eager);
 
     Airbus insert(Airbus airbus);
+
+    Airbus update(Airbus airbus);
+
+    Airbus findById(Long id, boolean eager);
 }

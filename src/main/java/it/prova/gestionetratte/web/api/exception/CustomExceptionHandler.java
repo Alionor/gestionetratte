@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
-public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
+public class CustomExceptionHandler {
 
     @ExceptionHandler(IdNotNullForInsertException.class)
     public ResponseEntity<Object> handleIdNotNullForInsertException(IdNotNullForInsertException ex,
@@ -30,20 +30,37 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleValidationExceptions(
+            MethodArgumentNotValidException ex,
+            WebRequest request) {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
-        body.put("status", status.value());
+        body.put("status", HttpStatus.BAD_REQUEST.value());
 
         // Get all errors
-        List<String> errors = ex.getBindingResult().getFieldErrors().stream().map(x -> x.getDefaultMessage())
+        List<String> errors = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(x -> x.getDefaultMessage())
                 .collect(Collectors.toList());
 
         body.put("errors", errors);
 
-        return new ResponseEntity<>(body, headers, status);
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(AirbusNotFoundException.class)
+    public ResponseEntity<Object> handleAirbusNotFoundException(AirbusNotFoundException ex, WebRequest request) {
+
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", ex.getMessage());
+        body.put("status", HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
 
 }
