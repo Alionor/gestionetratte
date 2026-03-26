@@ -5,29 +5,31 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+@Entity
+@Table(name = "tratta")
 public class Tratta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "codice")
+    @Column(name = "codice", nullable = false)
     private String codice;
 
-    @Column(name = "descrizione")
+    @Column(name = "descrizione", nullable = false)
     private String descrizione;
 
-    @Column(name = "data")
+    @Column(name = "data", nullable = false)
     private LocalDate data;
 
-    @Column(name = "oradecollo")
+    @Column(name = "oradecollo", nullable = false)
     private LocalTime oraDecollo;
 
-    @Column(name = "oraatterraggio")
+    @Column(name = "oraatterraggio", nullable = false)
     private LocalTime oraAtterraggio;
 
-    @Column(name = "stato")
+    @Column(name = "stato", nullable = false)
     @Enumerated(EnumType.STRING)
     private Stato stato;
 
@@ -36,6 +38,27 @@ public class Tratta {
     private Airbus airbus;
 
     public Tratta() {
+    }
+
+    public Tratta(Long id, String codice, String descrizione, LocalDate data, LocalTime oraDecollo, LocalTime oraAtterraggio, Stato stato) {
+        this.id = id;
+        this.codice = codice;
+        this.descrizione = descrizione;
+        this.data = data;
+        this.oraDecollo = oraDecollo;
+        this.oraAtterraggio = oraAtterraggio;
+        this.stato = stato;
+    }
+
+    public Tratta(Long id, String codice, String descrizione, LocalDate data, LocalTime oraDecollo, LocalTime oraAtterraggio, Stato stato, Airbus airbus) {
+        this.id = id;
+        this.codice = codice;
+        this.descrizione = descrizione;
+        this.data = data;
+        this.oraDecollo = oraDecollo;
+        this.oraAtterraggio = oraAtterraggio;
+        this.stato = stato;
+        this.airbus = airbus;
     }
 
     public Long getId() {
