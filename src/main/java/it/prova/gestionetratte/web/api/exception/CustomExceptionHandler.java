@@ -60,8 +60,30 @@ public class CustomExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(TrattaNotFoundException.class)
+    public ResponseEntity<Object> handleTrattaNotFoundException(TrattaNotFoundException ex, WebRequest request) {
+
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", ex.getMessage());
+        body.put("status", HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(NotRemovableIfContainsTratteException.class)
     public ResponseEntity<Object> handleNotRemovableIfContainsTratteException(NotRemovableIfContainsTratteException ex, WebRequest request) {
+
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", ex.getMessage());
+        body.put("status", HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NotRemovableIfIsNotAnnullataException.class)
+    public ResponseEntity<Object> handleNotRemovableIfHasAirbusException(NotRemovableIfIsNotAnnullataException ex, WebRequest request) {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
