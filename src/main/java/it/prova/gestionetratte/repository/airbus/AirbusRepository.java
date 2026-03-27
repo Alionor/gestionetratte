@@ -12,7 +12,7 @@ public interface AirbusRepository  extends CrudRepository<Airbus, Long>, CustomA
     @Query("SELECT a from Airbus a LEFT JOIN FETCH a.tratte")
     List<Airbus> findAllEager();
 
-    @Query("SELECT a from Airbus a JOIN FETCH a.tratte WHERE a.id = :id")
+    @Query("SELECT a from Airbus a LEFT JOIN FETCH a.tratte WHERE a.id = :id")
     Airbus findByIdEager(@Param("id") Long id);
 
 }

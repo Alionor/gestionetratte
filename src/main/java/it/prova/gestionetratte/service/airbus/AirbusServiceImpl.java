@@ -41,4 +41,9 @@ public class AirbusServiceImpl implements AirbusService {
         return airbusRepository.save(airbus);
     }
 
+    @Transactional
+    public void remove(Long id) {
+        airbusRepository.deleteById(id);
+    }
+
 }

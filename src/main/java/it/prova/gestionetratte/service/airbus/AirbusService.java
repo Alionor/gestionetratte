@@ -13,4 +13,6 @@ public interface AirbusService {
     Airbus update(Airbus airbus);
 
     Airbus findById(Long id, boolean eager);
+
+    void remove(Long id);
 }

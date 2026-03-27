@@ -5,6 +5,7 @@ import it.prova.gestionetratte.model.Airbus;
 import it.prova.gestionetratte.service.airbus.AirbusService;
 import it.prova.gestionetratte.web.api.exception.AirbusNotFoundException;
 import it.prova.gestionetratte.web.api.exception.IdNotNullForInsertException;
+import it.prova.gestionetratte.web.api.exception.NotRemovableIfContainsTratteException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,12 +27,16 @@ public class AirbusController {
 
     @GetMapping("/eager/{id}")
     public AirbusDTO getByIdEager( @PathVariable(required = true) Long id) {
-        return AirbusDTO.buildAirbusDTOFromModel(airbusService.findById(id, true), true);
+        Airbus airbus = airbusService.findById(id, true);
+        if (airbus == null) throw new AirbusNotFoundException("Airbus non trovato");
+        return AirbusDTO.buildAirbusDTOFromModel(airbus, true);
     }
 
     @GetMapping("/{id}")
     public AirbusDTO getById( @PathVariable(required = true) Long id) {
-        return AirbusDTO.buildAirbusDTOFromModel(airbusService.findById(id, false), false);
+        Airbus airbus = airbusService.findById(id, false);
+        if (airbus == null) throw new AirbusNotFoundException("Airbus non trovato");
+        return AirbusDTO.buildAirbusDTOFromModel(airbus, false);
     }
 
     @PostMapping
@@ -54,6 +59,18 @@ public class AirbusController {
         return AirbusDTO.buildAirbusDTOFromModel(airbusAggiornato, false);
 
     }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable(required = true) Long id) {
+        Airbus airbusDaAggiornare = airbusService.findById(id, true);
+
+        if(airbusDaAggiornare.getTratte() != null && !airbusDaAggiornare.getTratte().isEmpty())
+            throw new NotRemovableIfContainsTratteException("Non può essere rimosso l'airbus se ha delle tratte associate.");
+
+        airbusService.remove(id);
+    }
+
+
 
 
 
