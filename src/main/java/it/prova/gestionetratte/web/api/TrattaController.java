@@ -75,8 +75,9 @@ public class TrattaController {
         trattaService.remove(id);
     }
 
-
-
-
+    @GetMapping("/concluse")
+    public List<Tratta> tratteConcluse() {
+        return trattaService.updateStatoTratte();
+    }
 
 }

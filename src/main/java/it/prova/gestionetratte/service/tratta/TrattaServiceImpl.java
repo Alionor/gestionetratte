@@ -35,7 +35,6 @@ public class TrattaServiceImpl implements TrattaService {
 
     @Transactional
     public Tratta insert(Tratta tratta) {
-        System.out.println(tratta.getAirbus().getId());
         return trattaRepository.save(tratta);
     }
 
@@ -54,10 +53,10 @@ public class TrattaServiceImpl implements TrattaService {
     public List<Tratta> updateStatoTratte() {
         List<Tratta> tratteAttive = trattaRepository.findAllAttive();
         tratteAttive.stream().forEach(tratta -> {
-            if (tratta.getData().equals(LocalDate.now()) && tratta.getOraAtterraggio().isAfter(LocalTime.now()))
-                    tratta.setStato(Stato.CONCLUSA);
+            if (tratta.getData().equals(LocalDate.now()) && tratta.getOraAtterraggio().isBefore(LocalTime.now()) || tratta.getData().isBefore(LocalDate.now()))
+                tratta.setStato(Stato.CONCLUSA);
         });
-        return tratteAttive;
+        return tratteAttive.stream().filter(tratta -> tratta.getStato().equals(Stato.CONCLUSA)).toList();
     }
 
 }

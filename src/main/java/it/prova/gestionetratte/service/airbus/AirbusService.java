@@ -15,4 +15,6 @@ public interface AirbusService {
     Airbus findById(Long id, boolean eager);
 
     void remove(Long id);
+
+    public List<Airbus> listaAirbusConSovrapposizioni();
 }

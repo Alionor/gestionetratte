@@ -1,7 +1,9 @@
 package it.prova.gestionetratte.web.api;
 
 import it.prova.gestionetratte.dto.AirbusDTO;
+import it.prova.gestionetratte.dto.AirbusDTOconSovrapposizioni;
 import it.prova.gestionetratte.model.Airbus;
+import it.prova.gestionetratte.model.Tratta;
 import it.prova.gestionetratte.service.airbus.AirbusService;
 import it.prova.gestionetratte.web.api.exception.AirbusNotFoundException;
 import it.prova.gestionetratte.web.api.exception.IdNotNullForInsertException;
@@ -70,7 +72,11 @@ public class AirbusController {
         airbusService.remove(id);
     }
 
-
+    @GetMapping("/sovrapposizioni")
+    public List<AirbusDTOconSovrapposizioni> tratteConcluse() {
+        List<Airbus> lista = airbusService.listaAirbusConSovrapposizioni();
+        return AirbusDTOconSovrapposizioni.createAirbusDTOListFromModelList(lista, true);
+    }
 
 
 

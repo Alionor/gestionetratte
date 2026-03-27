@@ -120,11 +120,11 @@ public class TrattaDTO {
         this.stato = stato;
     }
 
-    public AirbusDTO getAirbusDTO() {
+    public AirbusDTO getAirbus() {
         return airbus;
     }
 
-    public void setAirbusDTO(AirbusDTO airbus) {
+    public void setAirbus(AirbusDTO airbus) {
         this.airbus = airbus;
     }
 
@@ -138,7 +138,7 @@ public class TrattaDTO {
     public static TrattaDTO buildTrattaDTOFromModel(Tratta trattaModel, boolean includeAirbus) {
         TrattaDTO result = new TrattaDTO(trattaModel.getId(), trattaModel.getCodice(), trattaModel.getDescrizione(),
                 trattaModel.getData(), trattaModel.getOraDecollo(), trattaModel.getOraAtterraggio(), trattaModel.getStato());
-        if(includeAirbus) result.setAirbusDTO(AirbusDTO.buildAirbusDTOFromModel(trattaModel.getAirbus(), false));
+        if(includeAirbus) result.setAirbus(AirbusDTO.buildAirbusDTOFromModel(trattaModel.getAirbus(), false));
         return result;
     }
 
